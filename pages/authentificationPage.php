@@ -1,3 +1,9 @@
+
+
+<?php
+// Start session at the beginning of the script
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,12 +13,81 @@
     <!-- Link to Tailwind CSS -->
     <link href="./css/styles.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/output.css">
-    <script src="./js/script.js" defer></script>
+    <!-- <link rel="stylesheet" href="../css/style.css"> -->
+    <style>
+       
+        .container {
+
+            background-color: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 384px;
+            margin: auto;
+        }
+        .text-2xl {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+        }
+        .space-y-4 > * + * {
+            margin-top: 1rem;
+        }
+        label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #4b5563;
+        }
+        input[type="email"], input[type="password"], input[type="text"] {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            box-sizing: border-box;
+        }
+        input:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        button {
+            width: 100%;
+            padding: 0.5rem;
+            background-color: #3b82f6;
+            color: white;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border-radius: 0.375rem;
+            cursor: pointer;
+            border: none;
+        }
+        button:hover {
+            background-color: #2563eb;
+        }
+        p {
+            text-align: center;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+        a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+   
 </head>
 <body class="bg-gray-100">
 
     <!-- Header Section -->
-    <header class="flex justify-between items-center px-6 py-4 bg-white shadow-md">
+    <header class="flex justify-between items-center px-6 py-4 bg-white shadow-md mb-10">
         <!-- Logo -->
         <a href="../index.php" class="text-2xl font-bold text-gray-800 hover:text-blue-500">
             Librairie
@@ -20,80 +95,69 @@
 
         <!-- Login Button -->
         <div>
-            <a href="login.php" class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">
+            <a href="../pages/authentificationPage.php" class=" mr-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">
                 Log In
             </a>
         </div>
     </header>
 
     <!-- Form Container -->
-    <div class="flex justify-center items-center min-h-screen">
-        <div class="bg-white p-8 rounded-lg shadow-lg w-96">
-            <!-- Login Form -->
-            <form id="login-form"  action="../controller/ActorsController.php" class="space-y-4" method="POST">
-                <h2 class="text-2xl font-bold text-gray-800">Login</h2>
-                <input for="register" name="login" class="hidden">
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email" name="email" 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" 
-                           placeholder="Enter your email" required>
-                </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="password" name="password" 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" 
-                           placeholder="Enter your password" required>
-                </div>
-                <button type="submit" 
-                        class="w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600">
-                    Log In
-                </button>
-                <p class="text-sm text-center text-gray-600">
-                    Don't have an account? <a href="#" id="show-register" class="text-blue-500 hover:underline">Go to Register</a>
-                </p>
-            </form>
+    <div class="container  flex justify-center items-center  ">
+        <!-- Login Form -->
+        <form id="login-form" action="../controller/ActorsController.php" class="space-y-4" method="POST">
+            <h2 class="text-2xl">Login</h2>
+            <input for="register" name="login" class="hidden">
+            <div>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button type="submit">Log In</button>
+            <p>
+                Don't have an account? <a href="#" id="show-register">Go to Register</a>
+            </p>
+        </form>
 
-            <!-- Register Form (Hidden by Default) -->
-            <form id="register-form"  action="../controller/ActorsController.php"  class="space-y-4 hidden" method="POST">
-                <h2 class="text-2xl font-bold text-gray-800">Register</h2>
-                <input for="register" name="register" class="hidden">
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" name="name" 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" 
-                           placeholder="Enter your name" required>
-                </div>
-                <div>
-                    <label for="email-register" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input type="email" id="email-register" name="email" 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" 
-                           placeholder="Enter your email" required>
-                </div>
-                <div>
-                    <label for="password-register" class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="password-register" name="password" 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" 
-                           placeholder="Create a password" required>
-                </div>
-                <div>
-                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                    <input type="password" id="confirm-password" name="confirm-password" 
-                           class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm" 
-                           placeholder="Confirm your password" required>
-                </div>
-                <button type="submit" 
-                        class="w-full px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-md hover:bg-blue-600">
-                    Register
-                </button>
-                <p class="text-sm text-center text-gray-600">
-                    Already have an account? <a href="#" id="show-login" class="text-blue-500 hover:underline">Go to Login</a>
-                </p>
-            </form>
-        </div>
+        <!-- Register Form (Hidden by Default) -->
+        <form id="register-form" action="../controller/ActorsController.php" class="space-y-4 hidden" method="POST">
+            <h2 class="text-2xl">Register</h2>
+            <input for="register" name="register" class="hidden">
+            <div>
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+            </div>
+            <div>
+                <label for="email-register">Email</label>
+                <input type="email" id="email-register" name="email" placeholder="Enter your email" required>
+            </div>
+            <div>
+                <label for="password-register">Password</label>
+                <input type="password" id="password-register" name="password" placeholder="Create a password" required>
+            </div>
+            <div>
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+            </div>
+            <button type="submit">Register</button>
+            <p>
+                Already have an account? <a href="#" id="show-login">Go to Login</a>
+            </p>
+        </form>
     </div>
 
-
-    <script src="../js/script.js"></script>
+    <?php
+    
+    if (isset($_SESSION['res'])) {
+       
+        // Output the session message as a JavaScript alert
+        echo '<script>alert("' . htmlspecialchars($_SESSION['res'], ENT_QUOTES, 'UTF-8') . '");</script>';
+        // Clear the message after displaying
+        unset($_SESSION['res']);
+    }
+    ?>
+    <script src="../js/script.js"></script> 
 </body>
 </html>

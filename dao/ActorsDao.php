@@ -4,14 +4,51 @@ require_once '../dto/ActorsDTO.php';
 
 class ActorsDAO {
 
-    public function getAllActors(): array {
+    public function getConfirmedActors(): array {
         global $conn;
-        $query = "SELECT * FROM actors";
+        $query = "SELECT 
+        actors.*,
+        roles.role_name
+    FROM 
+        actors
+   
+    LEFT JOIN 
+        roles 
+    ON 
+        roles.name = actors.email
+    WHERE 
+    actors.state = 1
+     ";
+    
         $result = pg_query($conn, $query);
         
         $actors = [];
         while ($row = pg_fetch_assoc($result)) {
-            $actors[] = new ActorsDTO($row['id'], $row['name'], $row['email'], $row['password'],$row['slug'], $row['state']);
+            $actors[] = new ActorsDTO($row['id'], $row['name'], $row['email'], $row['password'],$row['slug'], $row['state'],$row['role_name']);
+        }
+        return $actors;
+    }
+    public function getNewActors(): array {
+        global $conn;
+        $query = "SELECT 
+        actors.*,
+        roles.role_name
+    FROM 
+        actors
+   
+    LEFT JOIN 
+        roles 
+    ON 
+        roles.name = actors.email
+    WHERE 
+    actors.state = 0
+     ";
+    
+        $result = pg_query($conn, $query);
+        
+        $actors = [];
+        while ($row = pg_fetch_assoc($result)) {
+            $actors[] = new ActorsDTO($row['id'], $row['name'], $row['email'], $row['password'],$row['slug'], $row['state'],$row['role_name']);
         }
         return $actors;
     }
@@ -63,9 +100,11 @@ class ActorsDAO {
         return null;
     }
 
-    public function createActor(ActorsDTO $actor): bool {
+    public function createActor(ActorsDTO $actor): ?string {
         global $conn;
-        $query = "INSERT INTO actors (name, email,password, slug, state) VALUES ($1, $2, $3, $4 ,$5)";
+        $query = "INSERT INTO actors (name, email, password, slug, state) 
+                  VALUES ($1, $2, $3, $4, $5) 
+                  RETURNING id, name, email, state";
         $result = pg_query_params($conn, $query, [
             $actor->getName(),
             $actor->getEmail(),
@@ -73,9 +112,16 @@ class ActorsDAO {
             $actor->getSlug(),
             $actor->getState()
         ]);
-        return $result !== false;
+    
+        if ($result !== false) {
+            $row = pg_fetch_assoc($result);
+            return $row['email']; // Return the actor's name
+        }
+    
+        return null; // Return null if the insert failed
     }
     
+
     public function updateActor(ActorsDTO $actor): bool {
         global $conn;
         $query = "UPDATE actors SET name = $1, email = $2, slug = $3, state = $4 WHERE id = $5";

@@ -1,13 +1,22 @@
 <?php
 include_once '../dao/ActorsDao.php';
+include_once '../dao/RolesDao.php';
+
 include_once '../dto/ActorsDto.php';
+include_once '../dto/RolesDto.php';
+
+
+
 
 class ActorsService {
 
     private $actorsDao;
+    private $roleDao;
 
     public function __construct() {
         $this->actorsDao = new ActorsDao();
+       
+        $this->roleDao=new RolesDAO();
     }
 
     // Register actor logic
@@ -16,7 +25,7 @@ class ActorsService {
     
         // Check if the email already exists in the database
         if ($this->actorsDao->emailExists($email)) {
-            echo'email';
+           
             return "email";
         }
     
@@ -30,38 +39,52 @@ class ActorsService {
         $result = $this->actorsDao->createActor($actorDto);
     
         if ($result) {
+            $this->roleDao->createRole(new RolesDTO(1 , $result));
+            
+            
+            
             return "success";
+
         } else {
             return "Error";
         }
     }
+    public function getconfirmedA(){
+        $res = $this->actorsDao->getConfirmedActors();
+        return $res;
+  }
+
+  public function getNewA(){
+    $res = $this->actorsDao->getNewActors();
+    return $res;
+}
+
     
     // Login actor logic
     public function loginActor($email, $password) {
-        // Validate input
-        if (empty($email) || empty($password)) {
-            return ['status' => 'error', 'message' => 'Email and password are required.'];
-        }
+        
     
         // Fetch actor by email
         $actorDto = $this->actorsDao->getActorByEmail($email);
+
     
         if ($actorDto) {
-            echo $actorDto->getState().'<br>';
+            
             // Check if the account is active
             if (!$actorDto->getState()) {
                 
-                return ['status' => 'error', 'message' => 'Account is not active.'];
+                return "not comfirmed";
             }
     
             // Verify the password
             if (password_verify($password, $actorDto->getPassword())) {
-                return ['status' => 'success', 'message' => 'Login successful!', 'actor' => $actorDto];
+                $role=$this->roleDao->getActorRole($actorDto->getEmail());
+                return $role;
             } else {
-                return ['status' => 'error', 'message' => 'Invalid password.'];
+                return "wrong password";
             }
         } else {
-            return ['status' => 'error', 'message' => 'Email not found.'];
+            return "this account doesn't exist";
         }
     }
     

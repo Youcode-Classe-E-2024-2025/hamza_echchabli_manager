@@ -8,6 +8,7 @@ class ActorsDTO {
     private string $password;
     private string $slug;
     private bool $state;
+    private string $role;
 
     // Constructor to initialize the object with default values
     public function __construct(
@@ -16,7 +17,8 @@ class ActorsDTO {
         string $email = "",
         string $password ="",
         string $slug = "",
-        int $state = 0 // Default state
+        int $state = 0, // Default state
+        string $role='cutsmor'
     ) {
         $this->id = $id;
         $this->name = $name;
@@ -24,6 +26,7 @@ class ActorsDTO {
         $this->password= $password;
         $this->slug = $slug;
         $this->state = $state;
+        $this->role = $role ;
     }
 
     // Getters
@@ -55,6 +58,10 @@ class ActorsDTO {
 
     public function setState(string $state): void {
         $this->state = $state;
+    }
+
+    public function getRole(): string {
+        return $this->role;
     }
 }
 ?>
