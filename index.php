@@ -34,21 +34,24 @@ session_start();
         <!-- Login Button -->
         <div class="flex justify-between " id="Hnav">
 
-            <?php if (isset($_SESSION['user']) && $_SESSION['user'] == 'admin'): ?>
-                <a href="pages/dash.php"
-                    class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Dashboard</a>
-                <a href="service/logout.php"
-                    class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log
-                    out</a>
-            <?php elseif (isset($_SESSION['user']) && $_SESSION['user'] == 'customer'): ?>
-                <a href="service/logout.php"
-                    class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log
-                    out</a>
-            <?php elseif (!isset($_SESSION['user'])): ?>
-                <a href="pages/authentificationPage.php"
-                    class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log
-                    In</a>
-            <?php endif; ?>
+        <?php if (isset($_SESSION['user']) && $_SESSION['user'] == 'admin'): ?>
+    <a href="pages/dash.php"
+        class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Dashboard</a>
+    <a href="service/logout.php"
+        class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log out</a>
+<?php elseif (isset($_SESSION['user']) && $_SESSION['user'] == 'customer'): ?>
+    <a href="service/logout.php"
+        class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log out</a>
+<?php elseif (isset($_SESSION['user']) && $_SESSION['user'] == 'author'): ?>
+    <a href="somePage.php"
+        class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Some Page</a>
+    <a href="service/logout.php"
+        class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log out</a>
+<?php elseif (!isset($_SESSION['user'])): ?>
+    <a href="pages/authentificationPage.php"
+        class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log In</a>
+<?php endif; ?>
+
 
 
 

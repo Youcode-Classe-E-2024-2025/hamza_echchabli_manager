@@ -2,14 +2,18 @@
 // Include the service and necessary files
 include_once '../service/ActorsService.php';
 include_once '../dto/ActorsDto.php';
+require_once '../dao/ArchiveDao.php';
+require_once '../dto/ArchiveDTO.php';
 
 class ActorsController {
     
     private $actorsService;
+    private $archiveDao;
     
 
     public function __construct() {
         $this->actorsService = new ActorsService();
+        $this->archiveDao = new ArchiveDao();
     }
 
     // Register actor
@@ -63,6 +67,37 @@ class ActorsController {
   }
 
 
+  public function getarchivedACC(){
+    $res= $this->actorsService->archivedOne();
+    return $res;
+  }
+
+  public function setAstate($email ){
+    $this->actorsService->setState($email);
+    
+    header('Location: ../pages/dash.php');
+    exit();
+  }
+
+  public function setRole($email ,$role){
+    $this->actorsService->setRole($email , $role);
+
+    
+    
+    header('Location: ../pages/dash.php');
+    exit();
+  }
+  
+    public function addArchive($email){
+        $this->archiveDao->createArchive($email);
+    }
+
+
+
+    public function  unbane($value){
+    
+    $this->archiveDao->deleteArchive($value);
+}
 
     public function loginActor() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -114,9 +149,53 @@ if (isset($_POST['register'])) {
     
 }
 
+
+
 // Login form submission
 if (isset($_POST['login'])) {
     $controller->loginActor();
+}
+
+
+if (isset($_POST['unarchive'])) {
+    $value=$_POST['email'];
+   
+    $controller->unbane($value);
+
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (isset($_POST['email'])) {
+        $email = $_POST['email'];
+
+        if (isset($_POST['changeRole']) && isset($_POST['role'])) {
+           
+          $role = $_POST['role'] ;
+        
+          $controller->setRole($email ,$role);
+
+        } elseif (isset($_POST['block'])) {
+            // Handle the Change Role action
+            $controller->setAstate($email);
+        } elseif (isset($_POST['archive'])) {
+
+
+          $controller->addArchive($email);
+
+            header('Location: ../pages/dash.php');
+                
+            exit();
+            
+        } else {
+            header('Location: ../pages/dash.php');
+                
+            exit();
+        }
+    } else {
+        header('Location: ../pages/dash.php');
+                
+        exit();
+    }
 }
 
 

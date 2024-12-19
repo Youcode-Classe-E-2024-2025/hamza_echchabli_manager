@@ -59,6 +59,19 @@ class ActorsService {
     return $res;
 }
 
+public function setRole($email ,$role){
+
+    $this->roleDao->updateRole($email,$role);
+}
+
+
+   public function archivedOne(){
+    $res=$this->actorsDao->getArchiveActors();
+    return $res;
+   }
+   
+
+
     
     // Login actor logic
     public function loginActor($email, $password) {
@@ -88,6 +101,12 @@ class ActorsService {
         }
     }
     
+    public function setState(string $email) {
+        $this->actorsDao->toggleActorState($email);
+    }
+    
+
+
     
 
     // Generate a slug from name

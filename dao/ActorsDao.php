@@ -7,17 +7,22 @@ class ActorsDAO {
     public function getConfirmedActors(): array {
         global $conn;
         $query = "SELECT 
-        actors.*,
-        roles.role_name
-    FROM 
-        actors
-   
-    LEFT JOIN 
-        roles 
-    ON 
-        roles.name = actors.email
-    WHERE 
+    actors.*,
+    roles.role_name
+FROM 
+    actors
+LEFT JOIN 
+    roles 
+ON 
+    roles.name = actors.email
+WHERE 
     actors.state = 1
+    AND NOT EXISTS (
+        SELECT 1
+        FROM archive
+        WHERE archive.email = actors.email
+    );
+
      ";
     
         $result = pg_query($conn, $query);
@@ -28,6 +33,42 @@ class ActorsDAO {
         }
         return $actors;
     }
+
+
+
+    public function getArchiveActors(): array {
+        global $conn;
+        $query = "SELECT 
+    actors.*,
+    roles.role_name
+FROM 
+    actors
+LEFT JOIN 
+    roles 
+ON 
+    roles.name = actors.email
+WHERE 
+    actors.state = 1
+    AND EXISTS (
+        SELECT 1
+        FROM archive
+        WHERE archive.email = actors.email
+    );"
+;
+    
+        $result = pg_query($conn, $query);
+        
+        $actors = [];
+        while ($row = pg_fetch_assoc($result)) {
+            $actors[] = new ActorsDTO($row['id'], $row['name'], $row['email'], $row['password'],$row['slug'], $row['state'],$row['role_name']);
+        }
+        return $actors;
+    }
+
+
+
+
+
     public function getNewActors(): array {
         global $conn;
         $query = "SELECT 
@@ -89,16 +130,7 @@ class ActorsDAO {
     }
     
 
-    public function getActorById(int $id): ?ActorsDTO {
-        global $conn;
-        $query = "SELECT * FROM actors WHERE id = $1";
-        $result = pg_query_params($conn, $query, [$id]);
-        
-        if ($row = pg_fetch_assoc($result)) {
-            return new ActorsDTO($row['id'], $row['name'], $row['email'], $row['slug'], $row['state']);
-        }
-        return null;
-    }
+   
 
     public function createActor(ActorsDTO $actor): ?string {
         global $conn;
@@ -122,24 +154,18 @@ class ActorsDAO {
     }
     
 
-    public function updateActor(ActorsDTO $actor): bool {
+    public function toggleActorState(string $email): bool {
         global $conn;
-        $query = "UPDATE actors SET name = $1, email = $2, slug = $3, state = $4 WHERE id = $5";
-        $result = pg_query_params($conn, $query, [
-            $actor->getName(),
-            $actor->getEmail(),
-            $actor->getSlug(),
-            $actor->getState(),
-            $actor->getId()
-        ]);
+        $query = "UPDATE actors SET state = CASE WHEN state = 1 THEN 0 ELSE 1 END WHERE email = $1";
+        $params = [$email];
+        $result = pg_query_params($conn, $query, $params);
+    
+        // Ensure the function returns a boolean indicating success or failure
         return $result !== false;
     }
+    
+    
 
-    public function deleteActor(int $id): bool {
-        global $conn;
-        $query = "DELETE FROM actors WHERE id = $1";
-        $result = pg_query_params($conn, $query, [$id]);
-        return $result !== false;
-    }
+   
 }
 ?>

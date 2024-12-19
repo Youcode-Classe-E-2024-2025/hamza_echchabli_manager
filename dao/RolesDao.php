@@ -41,12 +41,11 @@ class RolesDAO {
     }
 
     // Update an existing role in the database
-    public function updateRole(RolesDTO $role): bool {
+    public function updateRole($email,$role) {
         global $conn;
-        $query = "UPDATE roles SET name = $1, role_name = $2 WHERE id = $3";
-        $result = pg_query_params($conn, $query, [$role->getName(), $role->getRN(), $role->getId()]);
+        $query = "UPDATE roles SET role_name = $1 WHERE name = $2";
+        $result = pg_query_params($conn, $query, [$role , $email]);
         
-        return $result !== false; // Return true if the query was successful, false otherwise
     }
 
     // Delete a role by its ID
