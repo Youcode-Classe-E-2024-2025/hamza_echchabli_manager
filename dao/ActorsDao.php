@@ -97,7 +97,7 @@ WHERE
         global $conn;
         
         // Query to select actor by email
-        $query = "SELECT * FROM actors WHERE email = $1";
+        $query = "SELECT * FROM actors  WHERE email = $1";
         
         // Execute the query with parameterized email
         $result = pg_query_params($conn, $query, [$email]);

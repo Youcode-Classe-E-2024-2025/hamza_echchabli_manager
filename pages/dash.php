@@ -28,6 +28,10 @@ if (!isset($_SESSION['user']) || !$_SESSION['user']=='admin') {
         .hidden-section {
             display: none;
         }
+        main{
+            width: 70%;
+            margin-left: 10%;
+        }
     </style>
 </head>
 <body class="bg-gray-100">

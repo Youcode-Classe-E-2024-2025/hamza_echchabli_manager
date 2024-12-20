@@ -43,7 +43,7 @@ session_start();
     <a href="service/logout.php"
         class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log out</a>
 <?php elseif (isset($_SESSION['user']) && $_SESSION['user'] == 'author'): ?>
-    <a href="somePage.php"
+    <a href="pages/addBooks.php"
         class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Some Page</a>
     <a href="service/logout.php"
         class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log out</a>
@@ -61,7 +61,39 @@ session_start();
     </header>
 
     <main class="formC">
-        test
+
+
+    <section class="search-bar">
+  <input 
+    type="text" 
+    placeholder="Search for books..." 
+    class="search-input"
+  >
+</section>
+
+<!-- Section 2: Books Card Display -->
+<section class="book-cards mTop">
+  <!-- Example Book Card -->
+  <?php 
+  include_once('controller/booksController.php');
+   $b=new BooksController() ;
+  $boosRes= $b->getBooks() ;
+  
+  
+  foreach ($boosRes as $book): ?>
+       
+            <div class="book-card">
+                <img src="<?php echo $book->getImage(); ?>" alt="Book Cover" class="book-cover">
+                <h3 class="book-title"><?php echo htmlspecialchars($book->getTitle()); ?></h3>
+                <p class="book-author"><?php echo htmlspecialchars($book->getAuthor()); ?></p>
+                <p class="book-author">test</p>
+                <p class="book-price">$<?php echo number_format($book->getPrice(), 2); ?></p>
+            </div>
+        <?php endforeach; ?>
+
+</section>
+
+    
     </main>
 
 
