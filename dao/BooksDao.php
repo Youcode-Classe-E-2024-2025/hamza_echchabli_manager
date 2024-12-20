@@ -1,6 +1,5 @@
 <?php
-require_once 'config/databaseConfig.php';
-require_once 'dto/BooksDTO.php';
+
 
 class BooksDAO {
 
@@ -27,7 +26,7 @@ class BooksDAO {
         $books = [];
         while ($row = pg_fetch_assoc($result)) {
            
-            $books[] = new BooksDTO(
+            $books[] = new BooksDto(
                 $row['id'], 
                 $row['book_title'], 
                  'test',
@@ -51,17 +50,26 @@ class BooksDAO {
         return null;
     }
 
-    public function createBook(BooksDTO $book): bool {
+    public function createBook(BooksDTO $book): string {
         global $conn;
-        $query = "INSERT INTO books (title, description, price, image) VALUES ($1, $2, $3, $4)";
+    
+        // Insert book query
+        $query = "INSERT INTO books (title, description, price, image) VALUES ($1, $2, $3, $4) RETURNING id";
+    
+        // Execute query with parameters
         $result = pg_query_params($conn, $query, [
             $book->getTitle(),
             $book->getDescription(),
             $book->getPrice(),
             $book->getImage()
         ]);
-        return $result !== false;
+        $row = pg_fetch_assoc($result);
+   
+
+       return $row['id'];
+       
     }
+    
 
     public function updateBook(BooksDTO $book): bool {
         global $conn;

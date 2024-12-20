@@ -127,8 +127,8 @@ class ActorsController {
 
 
             }else {
-                $_SESSION['user'] = $result;
-               
+                $_SESSION['user'] = $result[0];
+                $_SESSION['user_id'] = $result[1];
                 header('Location: ../index.php');
                 exit();
             } 

@@ -92,7 +92,7 @@ public function setRole($email ,$role){
             // Verify the password
             if (password_verify($password, $actorDto->getPassword())) {
                 $role=$this->roleDao->getActorRole($actorDto->getEmail());
-                return $role;
+                return [$role ,$actorDto->getId()];
             } else {
                 return "wrong password";
             }

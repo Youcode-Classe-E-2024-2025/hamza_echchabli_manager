@@ -1,6 +1,9 @@
 <?php
 // Start session at the beginning of the script
-
+include('dao/BooksDao.php');
+include('dto/BooksDto.php');
+include('dao/ActorBookDao.php');
+require_once 'config/databaseConfig.php';
 // include_once("pages/dash.php");
 session_start();
 
@@ -15,23 +18,21 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Librairie</title>
-    <!-- Link to Tailwind CSS -->
-    <link href="./css/styles.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="css/output.css">
     <link rel="stylesheet" href="css/style.css">
-    <script src="./js/script.js" defer></script>
+    
 </head>
 
 <body class="bg-gray-100">
 
-    <!-- Header Section -->
+
     <header class="flex justify-between items-center px-6 py-4 bg-white shadow-md">
-        <!-- Logo -->
+       
         <a href="index.php" class="text-2xl font-bold text-gray-800 hover:text-blue-500">
             Librairie
         </a>
 
-        <!-- Login Button -->
         <div class="flex justify-between " id="Hnav">
 
         <?php if (isset($_SESSION['user']) && $_SESSION['user'] == 'admin'): ?>
@@ -71,9 +72,8 @@ session_start();
   >
 </section>
 
-<!-- Section 2: Books Card Display -->
 <section class="book-cards mTop">
-  <!-- Example Book Card -->
+  
   <?php 
   include_once('controller/booksController.php');
    $b=new BooksController() ;
