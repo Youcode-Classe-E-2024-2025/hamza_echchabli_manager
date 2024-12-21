@@ -2,7 +2,8 @@
 // include_once('../dao/BooksDao.php');
 // include_once('../dto/BooksDto.php');
 // include_once('../dao/ActorBookDao.php');
-// session_start();
+// require_once '../config/databaseConfig.php';
+
 
 class BooksController {
 
@@ -38,13 +39,13 @@ public function addBB($book){
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
+  
     $title = htmlspecialchars($_POST['title']);
     $description = htmlspecialchars($_POST['description']);
     $price = floatval($_POST['price']);
     $image = htmlspecialchars($_POST['image']);
     $author_id=htmlspecialchars($_POST['user_id']);
-    $book = new BooksDto(0, $title, $description, $price, $image, ' ');
+    $book = new BooksDTO(0, $title, $description, $price, $image, ' ');
     $booksController = new BooksController();
     $booksController->addBB($book);
     

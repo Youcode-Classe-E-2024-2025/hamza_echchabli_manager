@@ -1,13 +1,10 @@
 <?php  
-include('../dao/BooksDao.php');
-include('../dto/BooksDto.php');
-include('../dao/ActorBookDao.php');
-include '../config/databaseConfig.php';
-// include '../dto/BooksDTO.php';
+include_once('../dao/BooksDao.php');
+include_once('../dto/BooksDto.php');
+include_once('../dao/ActorBookDao.php');
+require_once '../config/databaseConfig.php';
+include_once('../controller/booksController.php');
 session_start();
-
-
-
 
 ?> 
 
@@ -81,7 +78,7 @@ session_start();
 <!-- Header Section -->
 <header class="flex justify-between items-center px-6 py-4 bg-white shadow-md">
     <!-- Logo -->
-    <a href="index.php" class="text-2xl font-bold text-gray-800 hover:text-blue-500">
+    <a href="../index.php" class="text-2xl font-bold text-gray-800 hover:text-blue-500">
         Librairie
     </a>
 
@@ -95,7 +92,7 @@ session_start();
 </header>
 <div class="form-container">
         <h2>Add a Book</h2>
-        <form action="../controller/booksController.php" method="POST">
+        <form action="" method="POST">
         <input type="hidden" name="user_id" value="<?= htmlspecialchars($_SESSION['user_id'], ENT_QUOTES, 'UTF-8') ?>">
             <div class="form-group">
                 <label for="title">Book Title</label>
@@ -120,3 +117,30 @@ session_start();
         </form>
 </body>
 </html>
+<?PHP  
+
+
+
+
+
+
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  
+    $title = htmlspecialchars($_POST['title']);
+    $description = htmlspecialchars($_POST['description']);
+    $price = floatval($_POST['price']);
+    $image = htmlspecialchars($_POST['image']);
+    $author_id=htmlspecialchars($_POST['user_id']);
+    $book = new BooksDTO(0, $title, $description, $price, $image, ' ');
+    $booksController = new BooksController();
+    $booksController->addBB($book);
+    
+    // $books_id = $this->BooksDao->createBook($book);
+
+    // $this->$actorBookDao->createActorBook($_SESSION['user_id'] ,$books_id);
+    
+    header('Location: ../index.php');
+    exit();
+} ?>

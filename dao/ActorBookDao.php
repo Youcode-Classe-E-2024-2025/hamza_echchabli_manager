@@ -1,6 +1,5 @@
 <?php
 
-// require_once '../config/databaseConfig.php';
 class ActorBookDao {
     
 
@@ -8,7 +7,7 @@ class ActorBookDao {
     public function createActorBook($actorId, $bookId) {
         global $conn;
         try {
-            $query = "INSERT INTO actor_book (actor_id, book_id) VALUES ($1, $2)";
+            $query = "INSERT INTO actor_book (actors_id, books_id) VALUES ($1, $2)";
             $result = pg_query_params($conn, $query, [$actorId, $bookId]);
 
             return "Row added successfully.";

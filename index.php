@@ -3,7 +3,7 @@
 include('dao/BooksDao.php');
 include('dto/BooksDto.php');
 include('dao/ActorBookDao.php');
-require_once 'config/databaseConfig.php';
+require 'config/databaseConfig.php';
 // include_once("pages/dash.php");
 session_start();
 
