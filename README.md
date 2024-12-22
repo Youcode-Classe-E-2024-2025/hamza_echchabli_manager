@@ -28,4 +28,5 @@ Welcome to **Librairie**, a web-based application designed to manage books and u
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repository-link
+   git clone https://github.com/Youcode-Classe-E-2024-2025/hamza_echchabli_manager.git 
+   
