@@ -20,10 +20,10 @@ if (!isset($_SESSION['user']) || !$_SESSION['user']=='admin') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Librairie</title>
     <!-- Link to Tailwind CSS -->
-    <link href="./css/styles.css" rel="stylesheet">
+    
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/style.css">
-    <script src="./js/script.js" defer></script>
+    
     <style>
         .hidden-section {
             display: none;
@@ -99,6 +99,7 @@ if (!isset($_SESSION['user']) || !$_SESSION['user']=='admin') {
         <?php
 
         include_once("../controller/ActorsController.php");
+        // include_once("../service/ActorsServices.php");
         include_once("../dto/ActorsDto.php");
 
         $AA= new ActorsController();
@@ -169,7 +170,7 @@ echo "</form>";
 
 
 
-$resN = $AA->getNewdAC();
+     $resN = $AA->getNewdAC();
 
         if ($resN) {
         foreach ($resN as $row) {
@@ -249,54 +250,12 @@ $resAR = $AA->getarchivedACC();
 </table>
             
             </section>
+            
         </main>
+
     </div>
-
-    <!-- JavaScript -->
-    <script>
-        // Selectors
-        const usersAccountsBtn = document.getElementById('users-accounts-btn');
-        const newAccountsBtn = document.getElementById('new-accounts-btn');
-        const archivedAccountsBtn = document.getElementById('archived-accounts-btn');
-
-        const usersAccountsSection = document.getElementById('users-accounts');
-        const newAccountsSection = document.getElementById('new-accounts');
-        const archivedAccountsSection = document.getElementById('archived-accounts');
-
-        // Event Listeners
-        usersAccountsBtn.addEventListener('click', () => {
-            showSection(usersAccountsSection);
-        });
-
-        newAccountsBtn.addEventListener('click', () => {
-            showSection(newAccountsSection);
-        });
-
-        archivedAccountsBtn.addEventListener('click', () => {
-            showSection(archivedAccountsSection);
-        });
-
-        // Function to Show Only the Selected Section
-        function showSection(section) {
-            // Hide all sections
-            usersAccountsSection.classList.add('hidden-section');
-            newAccountsSection.classList.add('hidden-section');
-            archivedAccountsSection.classList.add('hidden-section');
-
-            // Show the selected section
-            section.classList.remove('hidden-section');
-        }
-        function showRoleForm(button) {
-    // Find the role form next to the clicked button
-    const roleForm = button.nextElementSibling;
     
-    // Toggle the display style to show/hide the form
-    if (roleForm.style.display === "none") {
-        roleForm.style.display = "flex";
-    } else {
-        roleForm.style.display = "none";
-    }
-}
-    </script>
+   <script src="../js/dash.js"></script>
 </body>
 </html>
+   

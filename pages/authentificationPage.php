@@ -39,7 +39,7 @@ session_start();
             font-weight: 500;
             color: #4b5563;
         }
-        input[type="email"], input[type="password"], input[type="text"] {
+        input {
             width: 100%;
             padding: 0.5rem 0.75rem;
             border: 1px solid #d1d5db;
@@ -109,11 +109,11 @@ session_start();
             <input for="register" name="login" class="hidden">
             <div>
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <input  id="loginEmail" name="email" placeholder="Enter your email" >
             </div>
             <div>
                 <label for="password">Password</label>
-                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <input type="password" id="loginPassword" name="password" placeholder="Enter your password" >
             </div>
             <button type="submit">Log In</button>
             <p>
@@ -127,19 +127,19 @@ session_start();
             <input for="register" name="register" class="hidden">
             <div>
                 <label for="name">Name</label>
-                <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                <input type="text" id="name" name="name" placeholder="Enter your name" >
             </div>
             <div>
                 <label for="email-register">Email</label>
-                <input type="email" id="email-register" name="email" placeholder="Enter your email" required>
+                <input id="email-register" name="email" placeholder="Enter your email" >
             </div>
             <div>
                 <label for="password-register">Password</label>
-                <input type="password" id="password-register" name="password" placeholder="Create a password" required>
+                <input type="password" id="password-register" name="password" placeholder="Create a password" >
             </div>
             <div>
                 <label for="confirm-password">Confirm Password</label>
-                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" >
             </div>
             <button type="submit">Register</button>
             <p>

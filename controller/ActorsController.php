@@ -21,9 +21,10 @@ class ActorsController {
         session_start();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Collect data from the registration form
-            $name = $_POST['name'] ?? '';
-            $email = $_POST['email'] ?? '';
-            $password = $_POST['password'] ?? '';
+            $name = htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES, 'UTF-8');
+            $email = htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES, 'UTF-8');
+            $password = htmlspecialchars($_POST['password'] ?? '', ENT_QUOTES, 'UTF-8');
+            
 
             // Call the service to handle registration logic
             $result = $this->actorsService->registerActor($name, $email, $password);

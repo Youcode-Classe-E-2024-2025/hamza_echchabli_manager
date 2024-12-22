@@ -29,32 +29,52 @@ public function getBooks() {
 public function addBB($book){
      
     $books_id = $this->BooksDao->createBook($book);
-    session_start();
+    
     $this->actorBookDao->createActorBook($_SESSION['user_id'] ,intval($books_id));
     
     
     
 
 }
+
+public function getMyBooks(){
+    
+   return $this->actorBookDao->getAuthorBooks();
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  
-    $title = htmlspecialchars($_POST['title']);
-    $description = htmlspecialchars($_POST['description']);
-    $price = floatval($_POST['price']);
-    $image = htmlspecialchars($_POST['image']);
-    $author_id=htmlspecialchars($_POST['user_id']);
-    $book = new BooksDTO(0, $title, $description, $price, $image, ' ');
-    $booksController = new BooksController();
-    $booksController->addBB($book);
-    
-    // $books_id = $this->BooksDao->createBook($book);
 
-    // $this->$actorBookDao->createActorBook($_SESSION['user_id'] ,$books_id);
+
+public function ifExist($title){
+
+    $res = $this->BooksDao->getBookByTitle($title);
+    return $res;
+ 
+}
+
+public function deleteOne($title){
+
+    $result = $this->BooksDao->getBookByTitle($title);
+    if (!$result) {
+        return false ;
+    }
+
+    $res = $this->BooksDao->deleteBook($title);
+    return $res;
+ 
+}
+
+
+}
+
+
+
+// if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+  
+//     $title = $_POST['title'];
     
-    header('Location: ../index.php');
-    exit();
-} 
-?>
+    
+//     header('Location: ../index.php');
+//     exit();
+// } 
+// ?>
 

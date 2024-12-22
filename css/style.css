@@ -1,5 +1,5 @@
 #Hnav{
-    width: 200px;
+    width: 300px;
     /* background-color: brown; */
 }
 
@@ -61,8 +61,8 @@ button {
     cursor: pointer;
 }
 .edit-btn {
-    background-color: #000000; /* Light purple */
-    color: #4c1d95; /* Darker purple for contrast */
+    background-color: #979df6; /* Light purple */
+    color: #ffffff; /* Darker purple for contrast */
 }
 .edit-btn:hover {
     background-color: #c084fc; /* Slightly darker purple */

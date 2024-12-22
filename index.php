@@ -4,7 +4,9 @@ include('dao/BooksDao.php');
 include('dto/BooksDto.php');
 include('dao/ActorBookDao.php');
 require 'config/databaseConfig.php';
-// include_once("pages/dash.php");
+
+include_once("sql/create.php");
+
 session_start();
 
 
@@ -45,8 +47,11 @@ session_start();
         class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log out</a>
 <?php elseif (isset($_SESSION['user']) && $_SESSION['user'] == 'author'): ?>
     <a href="pages/addBooks.php"
-        class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Some Page</a>
-    <a href="service/logout.php"
+        class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Add Book</a>
+    <a href="pages/deleteBook.php"
+        class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Delete Book</a>
+
+        <a href="service/logout.php"
         class="ml-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">Log out</a>
 <?php elseif (!isset($_SESSION['user'])): ?>
     <a href="pages/authentificationPage.php"

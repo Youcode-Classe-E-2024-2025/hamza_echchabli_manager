@@ -70,7 +70,11 @@ WHERE
 
 
     public function getNewActors(): array {
-        global $conn;
+
+        $con = new PDO('pgsql:host=localhost;dbname=librairie', 'postgres', 'hamza');
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Enable error reporting
+    
+        // global $conn;
         $query = "SELECT 
         actors.*,
         roles.role_name
@@ -85,14 +89,27 @@ WHERE
     actors.state = 0
      ";
     
-        $result = pg_query($conn, $query);
-        
+       $stmt = $con->prepare($query);
+    
+    // Execute the query
+         $stmt->execute();
         $actors = [];
-        while ($row = pg_fetch_assoc($result)) {
-            $actors[] = new ActorsDTO($row['id'], $row['name'], $row['email'], $row['password'],$row['slug'], $row['state'],$row['role_name']);
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Use foreach to loop through the rows and populate the actors array
+        foreach ($rows as $row) {
+            $actors[] = new ActorsDTO(
+                $row['id'],
+                $row['name'],
+                $row['email'],
+                $row['password'],
+                $row['slug'],
+                $row['state'],
+                $row['role_name']
+            );
         }
-        return $actors;
-    }
+    return $actors;
+}
     public function getActorByEmail(string $email): ?ActorsDTO {
         global $conn;
         

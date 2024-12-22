@@ -39,41 +39,52 @@ class BooksDAO {
     }
     
 
-    public function getBookById(int $id): ?BooksDTO {
+    public function getBookByTitle(string $title): bool {
         global $conn;
-        $query = "SELECT * FROM books WHERE id = $1";
-        $result = pg_query_params($conn, $query, [$id]);
+        $query = "SELECT * FROM books WHERE title = $1";
+        $result = pg_query_params($conn, $query, [$title]);
         
         if ($row = pg_fetch_assoc($result)) {
-            return new BooksDTO($row['id'], $row['title'], $row['description'], $row['price'], $row['image']);
+           return  true ;
         }
-        return null;
+        return false;
     }
 
-    public function createBook(BooksDTO $book): string {
+    public function createBook(BooksDTO $book): ?string {
         global $conn;
     
-        // Insert book query
-        $query = "INSERT INTO books (title, description, price, image) VALUES ($1, $2, $3, $4) RETURNING id";
+        // Check if a book with the same title already exists
+        $checkQuery = "SELECT id FROM books WHERE title = $1";
+        $checkResult = pg_query_params($conn, $checkQuery, [$book->getTitle()]);
+        
+        if ($existingBook = pg_fetch_assoc($checkResult)) {
+            // If the book exists, return its ID
+            return $existingBook['id'];
+        }
     
-        // Execute query with parameters
+        // Insert the new book
+        $query = "INSERT INTO books (title, description, price, image) VALUES ($1, $2, $3, $4) RETURNING id";
         $result = pg_query_params($conn, $query, [
             $book->getTitle(),
             $book->getDescription(),
             $book->getPrice(),
             $book->getImage()
         ]);
+    
+        if (!$result) {
+            // Handle insertion failure
+            throw new Exception("Failed to insert book: " . pg_last_error($conn));
+        }
+    
+        // Fetch and return the newly inserted book's ID
         $row = pg_fetch_assoc($result);
-   
-
-       return $row['id'];
-       
+        return $row['id'];
     }
     
 
     public function updateBook(BooksDTO $book): bool {
         global $conn;
-        $query = "UPDATE books SET title = $1, description = $2, price = $3, image = $4 WHERE id = $5";
+        $query = "UPDATE books SET title = $1, description = $2, price = $3, image = $4 WHERE id = $5 ";
         $result = pg_query_params($conn, $query, [
             $book->getTitle(),
             $book->getDescription(),
@@ -84,10 +95,10 @@ class BooksDAO {
         return $result !== false;
     }
 
-    public function deleteBook(int $id): bool {
+    public function deleteBook(string $title): bool {
         global $conn;
-        $query = "DELETE FROM books WHERE id = $1";
-        $result = pg_query_params($conn, $query, [$id]);
+        $query = "DELETE FROM books WHERE title = $1 RETURNING id";
+        $result = pg_query_params($conn, $query, [$title]);
         return $result !== false;
     }
 }

@@ -5,18 +5,18 @@ require_once '../dto/RolesDTO.php';
 class RolesDAO {
 
     // Retrieve all roles from the database
-    public function getAllRoles(): array {
-        global $conn;
-        $query = "SELECT * FROM roles";
-        $result = pg_query($conn, $query);
+    // public function getAllRoles(): array {
+    //     global $conn;
+    //     $query = "SELECT * FROM roles";
+    //     $result = pg_query($conn, $query);
         
-        $roles = [];
-        while ($row = pg_fetch_assoc($result)) {
-            // Pass the role_name as well
-            $roles[] = new RolesDTO($row['id'], $row['name'], $row['role_name']);
-        }
-        return $roles;
-    }
+    //     $roles = [];
+    //     while ($row = pg_fetch_assoc($result)) {
+    //         // Pass the role_name as well
+    //         $roles[] = new RolesDTO($row['id'], $row['name'], $row['role_name']);
+    //     }
+    //     return $roles;
+    // }
 
     // Retrieve a specific role by its ID
     public function getActorRole(string $email): ?string {
@@ -49,12 +49,12 @@ class RolesDAO {
     }
 
     // Delete a role by its ID
-    public function deleteRole(int $id): bool {
-        global $conn;
-        $query = "DELETE FROM roles WHERE id = $1";
-        $result = pg_query_params($conn, $query, [$id]);
+    // public function deleteRole(int $id): bool {
+    //     global $conn;
+    //     $query = "DELETE FROM roles WHERE id = $1";
+    //     $result = pg_query_params($conn, $query, [$id]);
         
-        return $result !== false; // Return true if the query was successful, false otherwise
-    }
+    //     return $result !== false; // Return true if the query was successful, false otherwise
+    // }
 }
 ?>
