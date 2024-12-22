@@ -19,7 +19,7 @@ if (!isset($_SESSION['user']) || !$_SESSION['user']=='admin') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Librairie</title>
-    <!-- Link to Tailwind CSS -->
+  
     
     <link rel="stylesheet" href="../css/output.css">
     <link rel="stylesheet" href="../css/style.css">
@@ -36,14 +36,13 @@ if (!isset($_SESSION['user']) || !$_SESSION['user']=='admin') {
 </head>
 <body class="bg-gray-100">
 
-    <!-- Header Section -->
     <header class="flex justify-between items-center px-6 py-4 bg-white shadow-md">
-        <!-- Logo -->
+    
         <a href="../index.php" class="text-2xl font-bold text-gray-800 hover:text-blue-500">
             Librairie
         </a>
 
-        <!-- Navigation -->
+      
         <div class="flex justify-between" id="Hnav">
             <a href="dash.php" class="px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">
                 Dashboard
@@ -54,9 +53,8 @@ if (!isset($_SESSION['user']) || !$_SESSION['user']=='admin') {
         </div>
     </header>
 
-    <!-- Main Content -->
     <div class="flex min-h-screen mt-2">
-        <!-- Sidebar -->
+   
         <aside class="w-64 bg-white shadow-md ml-2">
             <ul class="space-y-2 p-4">
                 <li>
@@ -77,9 +75,7 @@ if (!isset($_SESSION['user']) || !$_SESSION['user']=='admin') {
             </ul>
         </aside>
 
-        <!-- Main Section -->
         <main class="flex-grow p-6 bg-gray-100">
-            <!-- Users Accounts Section -->
             <section id="users-accounts" class="">
             <table>
         <thead>
@@ -94,12 +90,10 @@ if (!isset($_SESSION['user']) || !$_SESSION['user']=='admin') {
         </thead>
         <tbody>
 
-        <!-- getNewdAC -->
         
         <?php
 
         include_once("../controller/ActorsController.php");
-        // include_once("../service/ActorsServices.php");
         include_once("../dto/ActorsDto.php");
 
         $AA= new ActorsController();
@@ -148,7 +142,6 @@ echo "</form>";
 
         
 
-            <!-- New Accounts Section -->
             <section id="new-accounts" class="hidden-section">
             <table>
         <thead>
@@ -164,10 +157,6 @@ echo "</form>";
         <tbody>
 
             <?php
-
-// include_once("../controller/ActorsController.php");
-// include_once("../dto/ActorsDto.php");
-
 
 
      $resN = $AA->getNewdAC();
@@ -199,7 +188,6 @@ echo "</form>";
 </table>
             </section>
 
-            <!-- Archived Accounts Section -->
             <section id="archived-accounts" class="hidden-section">
             <table>
         <thead>

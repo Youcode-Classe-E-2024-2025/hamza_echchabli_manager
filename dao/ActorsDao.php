@@ -1,6 +1,6 @@
 <?php
 require_once '../config/databaseConfig.php';
-require_once '../dto/ActorsDTO.php';
+require_once '../dto/ActorsDto.php';
 
 class ActorsDAO {
 
@@ -72,9 +72,7 @@ WHERE
     public function getNewActors(): array {
 
         $con = new PDO('pgsql:host=localhost;dbname=librairie', 'postgres', 'hamza');
-        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); // Enable error reporting
-    
-        // global $conn;
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $query = "SELECT 
         actors.*,
         roles.role_name
@@ -91,13 +89,11 @@ WHERE
     
        $stmt = $con->prepare($query);
     
-    // Execute the query
          $stmt->execute();
         $actors = [];
         $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-        // Use foreach to loop through the rows and populate the actors array
-        foreach ($rows as $row) {
+foreach ($rows as $row) {
             $actors[] = new ActorsDTO(
                 $row['id'],
                 $row['name'],
@@ -113,32 +109,26 @@ WHERE
     public function getActorByEmail(string $email): ?ActorsDTO {
         global $conn;
         
-        // Query to select actor by email
         $query = "SELECT * FROM actors  WHERE email = $1";
         
-        // Execute the query with parameterized email
         $result = pg_query_params($conn, $query, [$email]);
 
         if ($row = pg_fetch_assoc($result)) {
-            // Return an instance of ActorsDTO
+      
             return new ActorsDTO($row['id'], $row['name'], $row['email'], $row['password'], $row['slug'],$row['state']);
         }
         
-        // Return null if no actor found
+       
         return null;
     }
 
-    // Other methods...
 
     public function emailExists($email) {
         global $conn_str;
         $conn = pg_connect($conn_str);
-    
-        // Query to check if the email exists in the actors table
         $query = "SELECT 1 FROM actors WHERE email = $1 LIMIT 1";
         $result = pg_query_params($conn, $query, array($email));
     
-        // If a result is returned, the email already exists
         if (pg_num_rows($result) > 0) {
             return true;
         }
@@ -164,10 +154,10 @@ WHERE
     
         if ($result !== false) {
             $row = pg_fetch_assoc($result);
-            return $row['email']; // Return the actor's name
+            return $row['email']; 
         }
     
-        return null; // Return null if the insert failed
+        return null; 
     }
     
 
@@ -177,7 +167,6 @@ WHERE
         $params = [$email];
         $result = pg_query_params($conn, $query, $params);
     
-        // Ensure the function returns a boolean indicating success or failure
         return $result !== false;
     }
     

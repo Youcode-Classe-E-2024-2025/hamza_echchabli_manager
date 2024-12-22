@@ -65,12 +65,12 @@ function createTables($conn) {
     // Execute each query to create the tables
     foreach ($queries as $query) {
         try {
-            // Execute the query to create the table if it doesn't already exist
+         
             $conn->exec($query);
-            echo "Table created or already exists.<br>";
+          
         } catch (PDOException $e) {
-            // If there's an error creating the table, print the error message
-            echo "Error creating table: " . $e->getMessage() . "<br>";
+           
+           
         }
     }
 }

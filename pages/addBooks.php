@@ -39,9 +39,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body class="bg-gray-100">
 
-<!-- Header Section -->
 <header class="flex justify-between items-center px-6 py-4 bg-white shadow-md">
-    <!-- Logo -->
+ 
     <a href="../index.php" class="text-2xl font-bold text-gray-800 hover:text-blue-500">
         Librairie
     </a>

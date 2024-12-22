@@ -1,6 +1,6 @@
 <?php
 
-class PurchasesDTO {
+class ArchiveDTO {
     private int $id;
     private string $email;
 

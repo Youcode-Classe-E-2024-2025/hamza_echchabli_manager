@@ -1,13 +1,9 @@
 <?php
 
 class ActorBookDao {
-    
-
-    // Create a row in actor_book
     public function createActorBook($actorId, $bookId): string {
         global $conn;
     
-        // Check if the record already exists
         $checkQuery = "SELECT 1 FROM actor_book WHERE actors_id = $1 AND books_id = $2";
         $checkResult = pg_query_params($conn, $checkQuery, [$actorId, $bookId]);
     
@@ -73,7 +69,7 @@ WHERE
                 $row['description'], 
                 floatval($row['price']), 
                 $row['image'], 
-                '' // Author is not fetched here
+                '' // Author is not 
             );
         }
 

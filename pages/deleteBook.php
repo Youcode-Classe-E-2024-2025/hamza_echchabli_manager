@@ -103,7 +103,6 @@ session_start();
 <div class="form-container">
         <h2>Add a Book</h2>
         <form action="" method="POST">
-        <!-- <input type="hidden" name="user_id" value=""> -->
             <div class="form-group">
                 <label for="title">Book Title</label>
                 <input type="text" id="title" name="title" placeholder="Enter book title" required>

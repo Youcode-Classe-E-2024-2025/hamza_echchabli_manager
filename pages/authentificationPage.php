@@ -86,14 +86,12 @@ session_start();
 </head>
 <body class="bg-gray-100">
 
-    <!-- Header Section -->
     <header class="flex justify-between items-center px-6 py-4 bg-white shadow-md mb-10">
-        <!-- Logo -->
+     
         <a href="../index.php" class="text-2xl font-bold text-gray-800 hover:text-blue-500">
             Librairie
         </a>
 
-        <!-- Login Button -->
         <div>
             <a href="../pages/authentificationPage.php" class=" mr-auto px-4 py-2 text-sm font-medium text-white bg-blue-500 rounded-lg hover:bg-blue-600">
                 Log In
@@ -101,9 +99,8 @@ session_start();
         </div>
     </header>
 
-    <!-- Form Container -->
     <div class="container  flex justify-center items-center  ">
-        <!-- Login Form -->
+       
         <form id="login-form" action="../controller/ActorsController.php" class="space-y-4" method="POST">
             <h2 class="text-2xl">Login</h2>
             <input for="register" name="login" class="hidden">
@@ -121,7 +118,6 @@ session_start();
             </p>
         </form>
 
-        <!-- Register Form (Hidden by Default) -->
         <form id="register-form" action="../controller/ActorsController.php" class="space-y-4 hidden" method="POST">
             <h2 class="text-2xl">Register</h2>
             <input for="register" name="register" class="hidden">
@@ -152,9 +148,9 @@ session_start();
     
     if (isset($_SESSION['res'])) {
        
-        // Output the session message as a JavaScript alert
+       
         echo '<script>alert("' . htmlspecialchars($_SESSION['res'], ENT_QUOTES, 'UTF-8') . '");</script>';
-        // Clear the message after displaying
+        
         unset($_SESSION['res']);
     }
     ?>

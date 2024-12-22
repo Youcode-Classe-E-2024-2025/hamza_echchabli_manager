@@ -1,5 +1,5 @@
 <?php
-// Include the service and necessary files
+
 include_once '../service/ActorsService.php';
 include_once '../dto/ActorsDto.php';
 require_once '../dao/ArchiveDao.php';
@@ -16,20 +16,19 @@ class ActorsController {
         $this->archiveDao = new ArchiveDao();
     }
 
-    // Register actor
+  
     public function registerActorC() {
         session_start();
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Collect data from the registration form
+         
+            
             $name = htmlspecialchars($_POST['name'] ?? '', ENT_QUOTES, 'UTF-8');
             $email = htmlspecialchars($_POST['email'] ?? '', ENT_QUOTES, 'UTF-8');
             $password = htmlspecialchars($_POST['password'] ?? '', ENT_QUOTES, 'UTF-8');
             
 
-            // Call the service to handle registration logic
             $result = $this->actorsService->registerActor($name, $email, $password);
            
-            // Handle the response (e.g., show a success message or error)
             if($result == 'email'){
                
                 $_SESSION['res'] = 'email already exist';
@@ -102,17 +101,16 @@ class ActorsController {
 
     public function loginActor() {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            // Collect data from the login form
-            $email = $_POST['email'] ;
-            $password = $_POST['password'] ;
+       
+            $email =  htmlspecialchars($_POST['email']  ?? '', ENT_QUOTES, 'UTF-8');
+            $password = htmlspecialchars($_POST['password']  ?? '', ENT_QUOTES, 'UTF-8');
             
 
-            // Call the service to handle login logic
             $result = $this->actorsService->loginActor($email, $password);
             session_start();
             if($result == 'not comfirmed'){
                
-                $_SESSION['res'] = 'your account is not comfirmed';
+                $_SESSION['res'] = 'your account is not comfirmed or banned';
                 
                 header('Location: ../pages/authentificationPage.php');
                 
@@ -133,16 +131,13 @@ class ActorsController {
                 header('Location: ../index.php');
                 exit();
             } 
-            // Handle the response (e.g., show success or error)
            
         }
     }
 }
 
-// Handle form submissions
 $controller = new ActorsController();
 
-// Register form submission
 if (isset($_POST['register'])) {
     echo"work inside" ;
    
@@ -152,7 +147,6 @@ if (isset($_POST['register'])) {
 
 
 
-// Login form submission
 if (isset($_POST['login'])) {
     $controller->loginActor();
 }
@@ -176,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           $controller->setRole($email ,$role);
 
         } elseif (isset($_POST['block'])) {
-            // Handle the Change Role action
+         
             $controller->setAstate($email);
         } elseif (isset($_POST['archive'])) {
 

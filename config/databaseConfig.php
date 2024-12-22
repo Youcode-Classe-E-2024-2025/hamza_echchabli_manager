@@ -13,5 +13,4 @@ if (!$conn) {
     echo "Connection failed: " . pg_last_error();
 }
 
-// echo"work";
 ?>

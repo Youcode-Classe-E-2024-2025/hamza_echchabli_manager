@@ -4,7 +4,24 @@
 class BooksDAO {
 
     public function getAllBooks(): array {
-        global $conn;
+        // PDO connection directly in the function
+        $host = "localhost"; 
+        $port = "5432"; 
+        $dbname = "librairie"; 
+        $user = "postgres"; 
+        $password = "hamza"; 
+    
+        try {
+            // Create PDO connection
+            $conn = new PDO("pgsql:host=$host;port=$port;dbname=$dbname", $user, $password);
+            // Set PDO error mode to exception
+            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+            return [];
+        }
+    
+        // Query to fetch books
         $query = "SELECT 
                     b.id,
                     b.image AS book_image,
@@ -18,25 +35,34 @@ class BooksDAO {
                   JOIN 
                     public.actors a ON ba.actors_id = a.id
                   ORDER BY 
-                    b.title;
-        ";
-        
-        $result = pg_query($conn, $query);
-        
+                    b.title";
+    
+        // Prepare the query
+        $stmt = $conn->prepare($query);
+    
+        // Execute the query
+        $stmt->execute();
+    
+        // Fetch all results as an associative array
+        $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+        // Create an array of BooksDto objects
         $books = [];
-        while ($row = pg_fetch_assoc($result)) {
-           
+        foreach ($rows as $row) {
             $books[] = new BooksDto(
                 $row['id'], 
                 $row['book_title'], 
-                 'test',
+                'test',  // Assuming 'test' is a placeholder for the author or other data
                 floatval($row['book_price']), 
                 $row['book_image'], 
                 $row['author_name']
             );
         }
+    
+        // Return the array of books
         return $books;
     }
+    
     
 
     public function getBookByTitle(string $title): bool {
@@ -53,16 +79,13 @@ class BooksDAO {
     public function createBook(BooksDTO $book): ?string {
         global $conn;
     
-        // Check if a book with the same title already exists
         $checkQuery = "SELECT id FROM books WHERE title = $1";
         $checkResult = pg_query_params($conn, $checkQuery, [$book->getTitle()]);
         
         if ($existingBook = pg_fetch_assoc($checkResult)) {
-            // If the book exists, return its ID
             return $existingBook['id'];
         }
     
-        // Insert the new book
         $query = "INSERT INTO books (title, description, price, image) VALUES ($1, $2, $3, $4) RETURNING id";
         $result = pg_query_params($conn, $query, [
             $book->getTitle(),
@@ -72,11 +95,11 @@ class BooksDAO {
         ]);
     
         if (!$result) {
-            // Handle insertion failure
+         
             throw new Exception("Failed to insert book: " . pg_last_error($conn));
         }
     
-        // Fetch and return the newly inserted book's ID
+      
         $row = pg_fetch_assoc($result);
         return $row['id'];
     }

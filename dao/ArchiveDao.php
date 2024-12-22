@@ -1,10 +1,9 @@
 <?php
 require_once '../config/databaseConfig.php';
-require_once '../dto/ArchiveDTO.php';
+require_once '../dto/ArchiveDto.php';
 
 class ArchiveDao {
 
-    // Method to fetch all records from the 'archive' table
     public function getAll(): array {
         global $conn;
         $query = "SELECT * FROM archive";
@@ -23,12 +22,22 @@ class ArchiveDao {
         return $result !== false;       
     }
 
-    // Method to delete an archive entry by its ID
     public function deleteArchive(string $email): bool {
         global $conn;
         $query = "DELETE FROM archive WHERE email = $1";
         $result = pg_query_params($conn, $query, [$email]);
         return $result !== false;
+    }
+    public function getOne(string $email): ?ArchiveDTO {
+        global $conn;
+        $query = "SELECT * FROM archive WHERE email = $1";
+        $result = pg_query_params($conn, $query, [$email]);
+
+        if ($row = pg_fetch_assoc($result)) {
+            return new ArchiveDTO($row['id'], $row['email']);
+        }
+        
+        return null;  
     }
 }
 ?>
